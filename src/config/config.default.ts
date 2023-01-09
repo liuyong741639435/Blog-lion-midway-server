@@ -1,4 +1,5 @@
 import { MidwayConfig } from '@midwayjs/core';
+import { Person } from '../entity/person';
 
 export default {
   // use for cookie sign key, should change to your own and keep security
@@ -6,19 +7,22 @@ export default {
   koa: {
     port: 7001,
   },
-  orm: {
-    /**
-     * 单数据库实例
-     */
-    type: 'mysql',
-    host: '127.0.0.1',
-    port: 3306,
-    username: 'root',
-    password: 'dd123456!',
-    database: 'blog_mid_dev',
-    synchronize: true, // 如果第一次使用，不存在表，有同步的需求可以写 true
-    logging: false,
-    dateStrings: true,
-    // timezone: '+08:00', // 也可以配置时区（不建议）
+  sequelize: {
+    dataSource: {
+      default: {
+        database: 'blog_mid_dev',
+        username: 'root',
+        password: 'dd123456!',
+        host: '127.0.0.1',
+        port: 3306,
+        encrypt: false,
+        dialect: 'mysql',
+        define: { charset: 'utf8' },
+        timezone: '+08:00',
+        entities: [Person],
+        // 本地的时候，可以通过 sync: true 直接 createTable
+        sync: true,
+      },
+    },
   },
 } as MidwayConfig;
