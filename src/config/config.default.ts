@@ -1,12 +1,18 @@
 import { MidwayConfig } from '@midwayjs/core';
-import { Person } from '../entity/person';
 
 export default {
-  // use for cookie sign key, should change to your own and keep security
   keys: '1672908742942_4771',
   koa: {
-    port: 7001,
+    port: 80,
   },
+  bodyParser: {
+    enableTypes: ['json', 'form', 'text', 'xml'],
+    formLimit: '1mb',
+    jsonLimit: '1mb',
+    textLimit: '1mb',
+    xmlLimit: '1mb',
+  },
+  // 数据库操作
   sequelize: {
     dataSource: {
       default: {
@@ -19,10 +25,14 @@ export default {
         dialect: 'mysql',
         define: { charset: 'utf8' },
         timezone: '+08:00',
-        entities: [Person],
+        entities: ['./entity'],
         // 本地的时候，可以通过 sync: true 直接 createTable
         sync: true,
       },
     },
+  },
+  // jwt
+  jwt: {
+    expiresIn: 2 * 24 * 60 * 60, // 2天
   },
 } as MidwayConfig;

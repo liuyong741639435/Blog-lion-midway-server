@@ -8,6 +8,7 @@ import { join } from 'path';
 // import { NotFoundFilter } from './filter/notfound.filter';
 import { ReportMiddleware } from './middleware/report.middleware';
 import * as sequelize from '@midwayjs/sequelize';
+import * as jwt from '@midwayjs/jwt';
 
 @Configuration({
   imports: [
@@ -18,6 +19,7 @@ import * as sequelize from '@midwayjs/sequelize';
       enabledEnvironment: ['local'],
     },
     sequelize,
+    jwt,
   ],
   importConfigs: [join(__dirname, './config')],
 })
