@@ -1,4 +1,4 @@
-import { Tips } from '../type/conterller';
+import { Tips } from '../type';
 
 export const userTips: Record<string, Tips[]> = {
   login: [

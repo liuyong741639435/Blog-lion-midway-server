@@ -6,9 +6,9 @@ import response from '../utils/response';
 import { getFormData } from '../utils/formData';
 import { getToken } from '../utils/auth';
 import { AuthGuard } from '../guard/authGuard';
-import { Login, Register } from '../type/conterller/user';
-import { validate } from '../utils/validate';
-import { userTips } from '../tips/user';
+import { Login, Register } from '../type/user';
+import { validate } from '../validate';
+import { userTips } from '../validate/user';
 
 @Controller('/api/user')
 export class UserController {
