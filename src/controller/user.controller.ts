@@ -7,6 +7,8 @@ import { getFormData } from '../utils/formData';
 import { getToken } from '../utils/auth';
 import { AuthGuard } from '../guard/authGuard';
 import { Login, Register } from '../type/conterller/user';
+import { validate } from '../utils/validate';
+import { userTips } from '../tips/user';
 
 @Controller('/api/user')
 export class UserController {
@@ -18,7 +20,12 @@ export class UserController {
   @Post('/login')
   async login() {
     const { userName, password } = getFormData<Login>(this.ctx);
-    // 校验 todo
+
+    const vRes = validate({ userName, password }, userTips.login);
+    if (vRes.length > 0) {
+      return response.error('参数有误', vRes);
+    }
+
     try {
       const res = await this.userService.login({
         userName: userName,
@@ -39,7 +46,12 @@ export class UserController {
   @Post('/register')
   async register() {
     const { userName, password } = getFormData<Register>(this.ctx);
-    // 校验 todo
+
+    const vRes = validate({ userName, password }, userTips.register);
+    if (vRes.length > 0) {
+      return response.error('参数有误', vRes);
+    }
+
     try {
       await this.userService.create({
         userName: userName,

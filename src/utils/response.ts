@@ -6,7 +6,7 @@ function success(data: any = null, msg = 'success', code = 0) {
   };
 }
 
-function error(msg = 'error', data = '', code = 1) {
+function error(msg = 'error', data: any = null, code = 1) {
   return {
     code,
     msg,
