@@ -1,5 +1,6 @@
-import { Controller, Inject, Post } from '@midwayjs/decorator';
+import { Controller, Inject, Post, UseGuard } from '@midwayjs/decorator';
 import { Context } from '@midwayjs/koa';
+import { AuthGuard } from '../guard/authGuard';
 import { UserService } from '../service/user.service';
 // import * as md5 from 'md5';
 import response from '../utils/response';
@@ -13,6 +14,7 @@ export class UserController {
   ctx: Context;
 
   @Post('/editArticle')
+  @UseGuard(AuthGuard)
   async editArticle() {
     // const { aId, title, content } = getFormData(this.ctx);
     // 校验 todo

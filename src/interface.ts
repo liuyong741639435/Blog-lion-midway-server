@@ -1,4 +1,4 @@
-import { UserContext } from './utils/user-context';
+import { UserContext } from './type/index';
 
 /**
  * @description User-Service parameters

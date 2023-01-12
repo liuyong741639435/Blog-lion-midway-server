@@ -1,14 +1,14 @@
 import { Context } from '@midwayjs/koa';
-export function getFormData(ctx: Context): Record<string, any> {
+export function getFormData<T>(ctx: Context): T {
   switch (ctx.method) {
     case 'GET':
-      return ctx.request.query;
+      return ctx.request.query as any;
     case 'POST':
-      return ctx.request.body;
+      return ctx.request.body as any;
     case 'PUT':
-      return ctx.request.body; // todo待test
+      return ctx.request.body as any;
     default:
       console.log('尚未覆盖方法:', ctx.method);
-      return {};
+      return {} as any;
   }
 }

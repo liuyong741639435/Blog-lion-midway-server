@@ -6,6 +6,7 @@ import response from '../utils/response';
 import { getFormData } from '../utils/formData';
 import { getToken } from '../utils/auth';
 import { AuthGuard } from '../guard/authGuard';
+import { Login, Register } from '../type/conterller/user';
 
 @Controller('/api/user')
 export class UserController {
@@ -16,51 +17,57 @@ export class UserController {
 
   @Post('/login')
   async login() {
-    const { userName, password } = getFormData(this.ctx);
+    const { userName, password } = getFormData<Login>(this.ctx);
     // 校验 todo
     try {
-      const { userId } = await this.userService.login({
+      const res = await this.userService.login({
         userName: userName,
         password: md5(password),
       });
-      const token = await await getToken({ userId });
 
+      if (res === null) {
+        return response.error('登录失败');
+      }
+      const token = await await getToken({ userId: res.userId });
       return response.success({ token });
     } catch (error) {
-      console.log('error:', error);
-      return response.error('内部错误', error);
+      return response.error('内部错误');
     }
   }
 
+  // 注册
   @Post('/register')
   async register() {
-    const { userName, password } = getFormData(this.ctx);
+    const { userName, password } = getFormData<Register>(this.ctx);
     // 校验 todo
     try {
-      const res = await this.userService.create({
+      await this.userService.create({
         userName: userName,
         password: md5(password),
         nickName: '新用户', // 以后搞个包随机生成昵称
       });
-      return response.success(res);
+      return response.success('注册成功');
     } catch (error) {
-      return response.error('内部错误', error);
+      return response.error(
+        error.name === 'SequelizeUniqueConstraintError'
+          ? '账号重复'
+          : '内部错误'
+      );
     }
   }
 
+  // 删除当前登录的账号
   @Put('/delete')
   @UseGuard(AuthGuard)
   async delete() {
-    console.log('delete');
-    const { userName } = getFormData(this.ctx);
     const { userId } = this.ctx.userContext;
-    // 校验 todo
     try {
-      const res = await this.userService.delete({ userName, userId });
-      return response.success(res);
+      const deleteCount = await this.userService.delete({ userId });
+      return deleteCount > 0
+        ? response.success({ deleteCount }, '删除成功')
+        : response.error('删除失败');
     } catch (error) {
-      console.log('error', error);
-      return response.error('内部错误', error);
+      return response.error('内部错误');
     }
   }
 }

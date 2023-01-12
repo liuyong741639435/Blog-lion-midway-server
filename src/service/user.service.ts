@@ -1,6 +1,5 @@
 import { Provide } from '@midwayjs/decorator';
 import { InjectRepository } from '@midwayjs/sequelize';
-import { Op } from 'sequelize';
 import { User } from '../entity/user';
 
 @Provide()
@@ -17,18 +16,9 @@ export class UserService {
   }
 
   // delete
-  async delete(params: { userId: number; userName: string }) {
-    // await User.destroy({
-    //   where: {
-    //     [Op.or]: [{ userId: params.userId }, { userName: params.userName }],
-    //   },
-    // })
-    //   .then(res => console.log('then', res))
-    //   .catch(err => console.error('catch', err));
+  async delete(params: { userId: number }) {
     return await User.destroy({
-      where: {
-        [Op.or]: [{ userId: params.userId }, { userName: params.userName }],
-      },
+      where: params,
     });
   }
 
