@@ -6,22 +6,27 @@ import { verifyToken } from '../utils/auth';
 export class AuthGuard implements IGuard<Context> {
   async canActivate(ctx: Context): Promise<any> {
     const token = ctx.headers['authorization']?.trim();
-    console.log('token: ', token);
-    // 判断下有没有校验信息
 
+    // 判断下有没有校验信息
     if (!token) {
-      throw new httpError.ForbiddenError('token未携带');
+      throw new httpError.UnauthorizedError('token未携带');
     }
     try {
       //jwt.verify方法验证token是否有效
       ctx.userContext = await verifyToken(token);
-      console.log('ctx.userContext:', ctx.userContext); // { userId: 6, iat: 1673404684, exp: 1673577484 }
+      console.log(ctx.userContext, new Date().getTime() / 1000);
       return true;
     } catch (error) {
-      // token有问题
-      // todo后续不同问题,区分处理
-      console.error('error:', error);
-      throw new httpError.ForbiddenError('内部错误');
+      switch (error.message) {
+        case 'jwt expired':
+          throw new httpError.UnauthorizedError('authorization过期');
+          break;
+        case 'jwt malformed':
+          throw new httpError.UnauthorizedError('authorization格式错误');
+          break;
+        default:
+          throw new httpError.UnauthorizedError('内部错误');
+      }
     }
   }
 }

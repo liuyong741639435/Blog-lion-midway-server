@@ -34,6 +34,7 @@ async function getToken<T extends object>(data: T) {
 
 // 解析token
 async function verifyToken(token: string): Promise<any> {
+  // { userId: 6, iat: 1673404684, exp: 1673577484 } iat: 生效时间 exp: 过期时间  s单位
   return await jwtService.verify(token, pubkey, { complete: false });
 }
 

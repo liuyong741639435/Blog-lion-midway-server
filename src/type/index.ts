@@ -1,3 +1,5 @@
+import { ArticleState } from './article';
+
 // 登录之后的上下文
 export interface UserContext {
   userId: number;
@@ -6,8 +8,10 @@ export interface UserContext {
 }
 
 // 校验相关
-export interface Tips {
+export interface ValidateItem {
   key: string;
-  reg: RegExp;
   tigs: string;
+  reg?: RegExp;
+  required?: boolean;
+  values?: Array<ArticleState | string>;
 }

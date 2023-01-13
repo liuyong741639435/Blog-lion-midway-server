@@ -7,6 +7,7 @@ import {
   AutoIncrement,
   ForeignKey,
 } from 'sequelize-typescript';
+import { ArticleState } from '../type/article';
 import { User } from './user';
 
 @Table
@@ -14,15 +15,12 @@ class Article extends Model {
   // 常用参数defaultValue 默认值
   @PrimaryKey
   @AutoIncrement
-  @Column({ type: DataType.BIGINT, comment: '唯一id' })
-  id: number;
+  @Column({ type: DataType.BIGINT, comment: '文章id' })
+  aid: number;
 
   @ForeignKey(() => User)
   @Column({ type: DataType.BIGINT, comment: '用户id' })
   userId: number;
-
-  @Column({ type: DataType.BIGINT, comment: '文章id' })
-  aid: number;
 
   @Column({ type: DataType.CHAR, comment: '标题' })
   title: string;
@@ -38,7 +36,7 @@ class Article extends Model {
     comment: '状态 0-public,1-private,2-delete',
     defaultValue: 1, // todo 这里面用枚举,但是暂时还没定下来
   })
-  state: number;
+  state: ArticleState;
 
   @Column({
     type: DataType.SMALLINT,
