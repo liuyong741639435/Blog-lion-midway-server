@@ -7,6 +7,7 @@ import {
   AutoIncrement,
   ForeignKey,
 } from 'sequelize-typescript';
+import { FollowerState } from '../type/follower';
 import { User } from './user';
 
 @Table
@@ -21,8 +22,11 @@ class Follower extends Model {
   userId: number;
 
   @ForeignKey(() => User)
-  @Column({ type: DataType.BIGINT, comment: '粉丝的userId' })
+  @Column({ type: DataType.BIGINT, comment: '关注目标的userId' })
   followerUserId: number;
+
+  @Column({ type: DataType.BIGINT, comment: '关注目标的的状态' })
+  followerState: FollowerState;
 }
 
 export { Follower };

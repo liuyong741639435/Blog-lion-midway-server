@@ -179,8 +179,6 @@ export class UserController {
 
       return response.success({ token });
     } catch (error) {
-      console.log('error', error);
-
       return response.error('内部错误');
     }
   }

@@ -1,12 +1,19 @@
 import { ValidateItem } from '../type';
+import { FollowerState } from '../type/follower';
 
-const followerUserId = {
+const followerUserId: ValidateItem = {
   key: 'followerUserId',
   reg: /^[0-9]{1,12}$/,
   tigs: '参数有误，只能是数字',
 };
 
+const followerState: ValidateItem = {
+  key: 'followerState',
+  tigs: `参数有误:${Object.values(FollowerState).join('-')}`,
+  values: Object.values(FollowerState),
+};
+
 export const followerValidate: Record<string, ValidateItem[]> = {
-  setFollower: [followerUserId],
+  setFollower: [followerUserId, followerState],
   setCancelFollower: [followerUserId],
 };

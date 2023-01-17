@@ -8,7 +8,7 @@ const aid: ValidateItem = {
 };
 
 const state: ValidateItem = {
-  key: 'aid',
+  key: 'state',
   tigs: `参数有误:${Object.values(ArticleState).join('-')}`,
   values: Object.values(ArticleState),
 };

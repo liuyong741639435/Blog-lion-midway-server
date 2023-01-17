@@ -1,4 +1,5 @@
 import { ArticleState } from './article';
+import { FollowerState } from './follower';
 
 // 环境相关。 入参与npm传入参数相关
 export enum NodeEnv {
@@ -18,5 +19,5 @@ export interface ValidateItem {
   tigs: string;
   reg?: RegExp;
   required?: boolean;
-  values?: Array<ArticleState | string>;
+  values?: Array<ArticleState | FollowerState | string>;
 }
