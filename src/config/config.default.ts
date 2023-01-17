@@ -33,6 +33,6 @@ export default {
   },
   // jwt
   jwt: {
-    expiresIn: 60 ?? 2 * 24 * 60 * 60, // 2天
+    expiresIn: 2 * 24 * 60 * 60, // 60s ?? 2天
   },
 } as MidwayConfig;

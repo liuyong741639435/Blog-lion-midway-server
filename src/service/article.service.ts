@@ -56,8 +56,30 @@ export class ArticleService {
   }
 
   // selecte
-  async getArticleByUser(where: { aId: string; userId: number }) {
-    return await Article.findAll({
+  async getArticleList(limit: number, offset: number) {
+    return await Article.findAndCountAll({
+      offset,
+      limit,
+    });
+  }
+  async getArticleListByUser(
+    where: { userId: number },
+    limit: number,
+    offset: number
+  ) {
+    return await Article.findAndCountAll({
+      where,
+      offset,
+      limit,
+    });
+  }
+  async getArticle(where: { aid: number }) {
+    return await Article.findOne({
+      where,
+    });
+  }
+  async getArticleByUser(where: { aid: number; userId: number }) {
+    return await Article.findOne({
       where,
     });
   }

@@ -1,5 +1,4 @@
 import { Provide } from '@midwayjs/decorator';
-import { InjectRepository } from '@midwayjs/sequelize';
 import { User } from '../entity/user';
 import { Profile } from '../type/user';
 
@@ -7,8 +6,6 @@ import { Profile } from '../type/user';
 // Partial必填非必填的全转换为非必填 & Required 反之
 @Provide()
 export class UserService {
-  @InjectRepository(User)
-
   // create
   async create(params: {
     userName: string;

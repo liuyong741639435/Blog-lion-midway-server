@@ -28,6 +28,7 @@ export class ContainerLifeCycle {
   app: koa.Application;
 
   async onReady() {
+    console.log('onReady', this.app, this.app.getEnv());
     // add middleware
     this.app.useMiddleware([ReportMiddleware]);
     // add filter

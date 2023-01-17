@@ -175,9 +175,12 @@ export class UserController {
       if (res === null) {
         return response.error('登录失败');
       }
-      const token = await await getToken({ userId: res.userId });
+      const token = await getToken({ userId: res.userId });
+
       return response.success({ token });
     } catch (error) {
+      console.log('error', error);
+
       return response.error('内部错误');
     }
   }
