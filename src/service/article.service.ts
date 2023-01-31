@@ -30,7 +30,7 @@ export class ArticleService {
       title: string;
       content: string;
     },
-    where: { aid: number; userId: number }
+    where: { aid: number; userId: number; state: ArticleState }
   ) {
     return await Article.update(params, {
       where: where,
@@ -56,8 +56,13 @@ export class ArticleService {
   }
 
   // selecte
-  async getArticleList(limit: number, offset: number) {
+  async getArticleList(
+    where: { state: ArticleState },
+    limit: number,
+    offset: number
+  ) {
     return await Article.findAndCountAll({
+      where,
       offset,
       limit,
     });

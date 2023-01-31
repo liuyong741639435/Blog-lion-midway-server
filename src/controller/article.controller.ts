@@ -25,7 +25,7 @@ import { validate } from '../validate';
 import { articleValidate } from '../validate/article';
 
 @Controller('/api/article')
-export class UserController {
+export class ArticleController {
   service = new ArticleService();
 
   @Inject()
@@ -61,7 +61,7 @@ export class UserController {
             title,
             content,
           },
-          { aid, userId }
+          { aid, userId, state: ArticleState.PRIVATE }
         );
         return res[0] > 0 ? response.success() : response.error();
       } catch (error) {
@@ -118,7 +118,13 @@ export class UserController {
       return response.error('参数有误', vRes);
     }
     try {
-      const res = await this.service.getArticleList(limit, offset);
+      const res = await this.service.getArticleList(
+        {
+          state: ArticleState.PUBLIC,
+        },
+        limit,
+        offset
+      );
       return response.success(res ?? []);
     } catch (error) {
       return response.error('内部错误');
@@ -147,7 +153,7 @@ export class UserController {
     }
   }
 
-  // 访问他人文章
+  // 访问他人文章 todo 要记录访问量
   @Get('/article')
   async article() {
     const { aid } = getFormData<Article>(this.ctx);
