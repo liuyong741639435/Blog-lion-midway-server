@@ -15,11 +15,25 @@ export default {
   // 数据库操作
   sequelize: {
     dataSource: {
+      //   default: {
+      //     database: 'blog_mid_dev',
+      //     username: 'root',
+      //     password: 'dd123456!',
+      //     host: '127.0.0.1',
+      //     port: 3306,
+      //     encrypt: false,
+      //     dialect: 'mysql',
+      //     define: { charset: 'utf8' },
+      //     timezone: '+08:00',
+      //     entities: ['./entity'],
+      //     // 本地的时候，可以通过 sync: true 直接 createTable
+      //     sync: true,
+      //   },
       default: {
         database: 'blog_mid_dev',
-        username: 'root',
-        password: 'dd123456!',
-        host: '127.0.0.1',
+        username: 'dev',
+        password: 'Dd123456!',
+        host: 'rm-bp1qms7525mpv6e0g5o.mysql.rds.aliyuncs.com',
         port: 3306,
         encrypt: false,
         dialect: 'mysql',
