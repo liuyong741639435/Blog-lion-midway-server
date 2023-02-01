@@ -77,7 +77,7 @@ export class ArticleController {
     const { aid, state } = getFormData<SetArticleState>(this.ctx);
     const { userId } = this.ctx.userContext;
 
-    const vRes = validate({ aid }, articleValidate.updateArticleState);
+    const vRes = validate({ aid, state }, articleValidate.updateArticleState);
     if (vRes.length > 0) {
       return response.error('参数有误', vRes);
     }
