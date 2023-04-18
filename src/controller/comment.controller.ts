@@ -57,7 +57,7 @@ export class CommentController {
   @UseGuard(AuthGuard)
   async cancelCommentArticle() {
     const { id } = getFormData<CancelCommentArticle>(this.ctx);
-    const { userId } = this.ctx.userContext;
+    // const { userId } = this.ctx.userContext;
     const vRes = validate({ id }, commentValidate.setFollower);
     if (vRes.length > 0) {
       return response.error('参数有误', vRes);

@@ -48,7 +48,14 @@ const offset: ValidateItem = {
 };
 
 export const articleValidate: Record<string, ValidateItem[]> = {
-  editArticle: [aid, title, content],
+  editArticle: [
+    {
+      ...aid,
+      required: false,
+    },
+    title,
+    content,
+  ],
   updateArticleState: [aid, state],
   articleList: [limit, offset],
   articleListByUser: [limit, offset],
