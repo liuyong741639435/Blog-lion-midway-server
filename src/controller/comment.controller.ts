@@ -43,7 +43,7 @@ export class CommentController {
         parentId,
         content,
       });
-      response.success();
+      return response.success();
     } catch (error) {
       return response.error(
         error.name === 'SequelizeUniqueConstraintError'

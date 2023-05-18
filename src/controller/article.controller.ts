@@ -50,11 +50,12 @@ export class ArticleController {
           content,
           state: ArticleState.PRIVATE,
         });
-        response.success({ aid: res.aid });
+        return response.success({ aid: res.aid });
       } catch (error) {
-        response.error('内部错误');
+        return response.error('内部错误');
       }
     } else {
+      console.log('editArticle: ', 2);
       try {
         const res = await this.service.updateArticle(
           {
@@ -65,7 +66,7 @@ export class ArticleController {
         );
         return res[0] > 0 ? response.success() : response.error();
       } catch (error) {
-        response.error('内部错误');
+        return response.error('内部错误');
       }
     }
   }
