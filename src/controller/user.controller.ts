@@ -47,13 +47,40 @@ export class UserController {
         password: md5(password),
         nickName: '新用户', // 以后搞个包随机生成昵称
       });
-      return response.success('注册成功');
+      return response.success();
     } catch (error) {
       return response.error(
         error.name === 'SequelizeUniqueConstraintError'
           ? '账号重复'
           : '内部错误'
       );
+    }
+  }
+
+  // 登录
+  @Post('/login')
+  async login() {
+    const { userName, password } = getFormData<Login>(this.ctx);
+
+    const vRes = validate({ userName, password }, userValidate.login);
+    if (vRes.length > 0) {
+      return response.error('参数有误', vRes);
+    }
+
+    try {
+      const res = await this.service.login({
+        userName: userName,
+        password: md5(password),
+      });
+
+      if (res === null) {
+        return response.error('登录失败');
+      }
+      const token = await getToken({ userId: res.userId });
+
+      return response.success({ token });
+    } catch (error) {
+      return response.error('内部错误');
     }
   }
 
@@ -64,9 +91,7 @@ export class UserController {
     const { userId } = this.ctx.userContext;
     try {
       const deleteCount = await this.service.delete({ userId });
-      return deleteCount > 0
-        ? response.success({ deleteCount }, '删除成功')
-        : response.error('删除失败');
+      return deleteCount > 0 ? response.success() : response.error();
     } catch (error) {
       return response.error('内部错误');
     }
@@ -151,33 +176,6 @@ export class UserController {
         description: res.description,
         createdAt: res.createdAt,
       });
-    } catch (error) {
-      return response.error('内部错误');
-    }
-  }
-
-  // 登录
-  @Post('/login')
-  async login() {
-    const { userName, password } = getFormData<Login>(this.ctx);
-
-    const vRes = validate({ userName, password }, userValidate.login);
-    if (vRes.length > 0) {
-      return response.error('参数有误', vRes);
-    }
-
-    try {
-      const res = await this.service.login({
-        userName: userName,
-        password: md5(password),
-      });
-
-      if (res === null) {
-        return response.error('登录失败');
-      }
-      const token = await getToken({ userId: res.userId });
-
-      return response.success({ token });
     } catch (error) {
       return response.error('内部错误');
     }
